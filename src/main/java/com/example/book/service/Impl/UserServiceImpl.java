@@ -9,6 +9,7 @@ import com.example.book.repository.AccountRepository;
 import com.example.book.repository.UserRepository;
 import com.example.book.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,6 +20,8 @@ public class UserServiceImpl implements UserService {
     UserRepository userRepository;
     @Autowired
     AccountRepository accountRepository;
+    @Autowired
+    private PasswordEncoder encoder;
     @Override
     public List<UserDTO> getAll() {
         return userRepository.findAll().stream().map(UserDTO::new).collect(Collectors.toList());
@@ -37,6 +40,7 @@ public class UserServiceImpl implements UserService {
             if(userRepository.existsByCMND(user.getCMND())) throw new DuplicateException("CMND is exists");
             if(userRepository.existsByEmail(user.getEmail())) throw new DuplicateException("Email is exists");
             if(userRepository.existsByPhone(user.getPhone())) throw new DuplicateException("Phone number is exists");
+            account.setPassword(encoder.encode(account.getPassword()));
             return new UserDTO(accountRepository.save(account).getUser());
 
     }

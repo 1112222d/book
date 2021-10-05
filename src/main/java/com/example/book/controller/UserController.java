@@ -10,24 +10,25 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 
+@CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/api/user")
 public class UserController {
     @Autowired
     UserService userService;
+
     @GetMapping
-    public ResponseEntity<List<UserDTO>> getAllUser()
-    {
+    public ResponseEntity<List<UserDTO>> getAllUser() {
         return ResponseEntity.ok(userService.getAll());
     }
+
     @GetMapping("/{username}")
-    public ResponseEntity<UserDTO> getUserByUsername(@PathVariable String username)
-    {
+    public ResponseEntity<UserDTO> getUserByUsername(@PathVariable String username) {
         return ResponseEntity.ok(userService.getUserById(username));
     }
+
     @PostMapping
-    public ResponseEntity<UserDTO> insert(@Valid @RequestBody AddAccountDTO addAccountDTO)
-    {
+    public ResponseEntity<UserDTO> insert(@Valid @RequestBody AddAccountDTO addAccountDTO) {
         return ResponseEntity.ok(userService.insert(addAccountDTO.generateEntity()));
     }
 }
