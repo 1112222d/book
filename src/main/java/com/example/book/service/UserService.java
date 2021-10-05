@@ -8,6 +8,7 @@ import java.util.List;
 
 public interface UserService {
     public List<UserDTO> getAll();
+    public UserDTO getUserById(String username);
     public UserDTO insert(Account account);
 
 }

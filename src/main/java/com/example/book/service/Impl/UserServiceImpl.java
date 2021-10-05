@@ -3,6 +3,8 @@ package com.example.book.service.Impl;
 import com.example.book.dto.UserDTO;
 import com.example.book.entity.Account;
 import com.example.book.entity.User;
+import com.example.book.exception.DuplicateException;
+import com.example.book.exception.NotFoundException;
 import com.example.book.repository.AccountRepository;
 import com.example.book.repository.UserRepository;
 import com.example.book.service.UserService;
@@ -23,8 +25,18 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDTO insert(Account account) {
+    public UserDTO getUserById(String username) {
+        return new UserDTO(userRepository.findById(username).orElseThrow(()->new NotFoundException("Not found User with username: "+username)));
 
+    }
+
+    @Override
+    public UserDTO insert(Account account) {
+            User user = account.getUser();
+            if(accountRepository.existsById(account.getUsername())) throw new DuplicateException("Username is exists");
+            if(userRepository.existsByCMND(user.getCMND())) throw new DuplicateException("CMND is exists");
+            if(userRepository.existsByEmail(user.getEmail())) throw new DuplicateException("Email is exists");
+            if(userRepository.existsByPhone(user.getPhone())) throw new DuplicateException("Phone number is exists");
             return new UserDTO(accountRepository.save(account).getUser());
 
     }

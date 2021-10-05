@@ -20,6 +20,11 @@ public class UserController {
     {
         return ResponseEntity.ok(userService.getAll());
     }
+    @GetMapping("/{username}")
+    public ResponseEntity<UserDTO> getUserByUsername(@PathVariable String username)
+    {
+        return ResponseEntity.ok(userService.getUserById(username));
+    }
     @PostMapping
     public ResponseEntity<UserDTO> insert(@Valid @RequestBody AddAccountDTO addAccountDTO)
     {

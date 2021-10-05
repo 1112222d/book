@@ -1,7 +1,7 @@
 package com.example.book.exception;
 
-public class NotFoundException extends RuntimeException{
-    public NotFoundException(String msg)
+public class DuplicateException extends RuntimeException{
+    public DuplicateException(String msg)
     {
         super(msg);
     }

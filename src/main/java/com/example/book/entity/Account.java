@@ -1,6 +1,7 @@
 package com.example.book.entity;
 
 import lombok.Data;
+import org.hibernate.validator.constraints.UniqueElements;
 
 import javax.persistence.*;
 
